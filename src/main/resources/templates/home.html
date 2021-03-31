@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/element.css">
+</head>
+<body>
+<div th:include="thymleafHeader.html"></div>
+<div id="app">
+    <el-table :data="list" style="width: 500px">
+        <el-table-column label="id" prop="id"></el-table-column>
+        <el-table-column label="username" prop="username"></el-table-column>
+        <el-table-column label="password" prop="password"></el-table-column>
+    </el-table>
+</div>
+<div th:include="thymleafFooter"></div>
+</body>
+
+
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/element.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                list: null
+            }
+        },
+        methods: {
+            init() {
+                axios.get('/home/list').then(resp => {
+                    this.list = resp.data.list
+                })
+            }
+        },
+        created() {
+            this.init()
+        }
+    })
+</script>
+
+</html>

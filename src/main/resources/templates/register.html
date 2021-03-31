@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/element.css">
+</head>
+<body>
+<div id="app">
+    <el-card style="width:400px">
+        <el-form>
+            <el-form-item>
+                <el-input type="primary" v-model="form.username"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-input v-model="form.password"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button  type="primary" @click="register">注册</el-button>
+            </el-form-item>
+        </el-form>
+
+    </el-card>
+</div>
+</body>
+
+
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/element.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                form: {
+                    username: '',
+                    password: ''
+                }
+            }
+        },
+        methods: {
+            register() {
+                axios.post('/registerHandler',this.form).then(resp => {
+                    if (resp.data.code === 50000) {
+                        this.$message.error({
+                            message: resp.data.msg
+                        })
+                    } else {
+                        this.$message.success({
+                            message:resp.data.msg
+                        })
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</html>
